@@ -24,34 +24,44 @@ class Bird:
             self.chirp = chirp
 
         # pos used to determine whether I have hit an obstacle
-        self.xPos = 0
         self.yPos = 0
 
         # attributes needed to mimic gravity behavior in game
         self.velocity = 0  # how fast bird is moving
-        self.gravity = 0.5  # how fast it bring the bird back down
+        self.gravity = -0.5  # the force bird gets pulled back down
         self.flap_strength = 6  # how much of an upwards boost bird gets
 
+    def flap(self):
+        self.velocity += self.flap_strength
+        print("Oooo we movin hoe")
 
+    """ no need for an xCor variable because bird is never actually moving horizontally, only vertically"""
+    def move(self, yCor):
+        self.velocity += self.gravity
+        self.yCor += self.velocity
 
+    def been_hit(self, yCor):
+       if yCor != Pipe.yPos:
+           self.score += 1
+           return False
+       else:
+           return True
 
-
-    def move(self, xCor, yCor):
-        xCor += 1
-        yCor += 1
-
-    def hit(self):
-        return None
-
-    def score(self, score):
-        return None
+    def score(self):
+        return self.score
 
 class Pipe:
+    colors = ['green', 'blue', 'purple']
     # allowing users to set the colors of the obstacles
-    def __init__(self, color, xPos, yPos):
-        self.color = color
-        self.xPos = xPos
-        self.yPos = yPos
+    def __init__(self, color):
+
+        if self.color not in Pipe.colors:
+            raise AttributeError
+        else:
+            self.color = color
+
+        self.xPos = 0
+        self.yPos = 0
 
     def have_been_hit(self):
         return None
